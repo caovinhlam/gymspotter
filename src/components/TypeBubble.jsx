@@ -2,7 +2,7 @@ const TypeBubble = (props) => {
   const { types } = props;
 
   return (
-    <div className="type-bubble-box">
+    <div className="type-bubble-wrapper">
           {types.map((type, typeIndex) => (
               <p key={typeIndex} className="type-bubble">{type}</p>
       ))}

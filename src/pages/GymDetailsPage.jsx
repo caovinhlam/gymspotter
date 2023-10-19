@@ -2,7 +2,6 @@ import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import image from '../assets/react.svg'
 import TypeBubble from "../components/TypeBubble"
-import '../styles/GymDetails.css'
 import { Favorite } from "@mui/icons-material"
 import Review from "../components/Review"
 import { Button, IconButton } from "@mui/material"

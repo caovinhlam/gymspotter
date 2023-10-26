@@ -1,34 +1,24 @@
 import { Card, Box, CardContent, Typography, CardMedia, IconButton, Rating, CardActions, Button } from "@mui/material";
 import TypeBubble from "./TypeBubble";
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import { useNavigate } from "react-router-dom";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import { FavoriteBorder } from "@mui/icons-material";
+import { useState } from "react";
+import { pink } from '@mui/material/colors';
 
 const GymCard = (props) => {
-  let { gym } = props;
-  const navigate = useNavigate();
+  let { gym, viewHandler, favouriteHandler } = props;
 
-  const onClickHandler = (event, gymId) => {
-    // console.log(gymId);
-    navigate(`/details/${gymId}`)
-  };
+  const [favourited, setFavourited] = useState(false);
 
-  const favouriteHandler = (e) => {
-    e.stopPropagation()
-    console.log("favourite")
+  const cardFavouriteHandler = () => {
+
+    setFavourited(!favourited);
   }
 
   return (
-    <Card
-      variant="outlined"
-      sx={{ display: "flex" }}
-      className="mui-card"
-    >
-      <Box sx={{ display: "flex", flexDirection: "column" }} className="box">
-        <CardContent >
-          {/* <Typography component="div" variant="h5">
-            {gym.id}
-          </Typography> */}
+    <Card sx={{ display: "flex", flexDirection: "column" }} className="gym-card">
+      <Box sx={{ display: "flex", flexDirection: "row" }}>
+        <CardContent className="gym-contents">
           <Typography component="div" variant="h5">
             {gym.name}
           </Typography>
@@ -44,11 +34,25 @@ const GymCard = (props) => {
             color="text.secondary"
             component="div"
           >
-            <Rating name="read-only" value={gym.rating} readOnly />
+            <Rating name="read-only" value={Number(gym.rating)} readOnly />
           </Typography>
           <TypeBubble types={gym.types} />
+
         </CardContent>
-        {/* <CardContent>
+        <div className="card-image">
+          {/* <FavoriteIcon sx={{ fontSize: 60 }} color="action" onClick={favouriteHandler} /> */}
+          {/* <IconButton aria-label="add to favorites" onClick={favouriteHandler}>
+          <FavoriteIcon sx={{ fontSize: 60 }} color="action" />
+        </IconButton> */}
+          <CardMedia
+            component="img"
+
+            image="src/assets/react.svg"
+            alt="Live from space album cover"
+          />
+        </div>
+      </Box>
+      {/* <CardContent>
           <Typography level="title-lg">{gym.name}</Typography>
           <Typography level="body-sm">
             We are a community of developers prepping for coding interviews,
@@ -56,28 +60,29 @@ const GymCard = (props) => {
           </Typography>
         </CardContent> */}
 
-      </Box>
-
-      <div className="card-image">
-        {/* <FavoriteIcon sx={{ fontSize: 60 }} color="action" onClick={favouriteHandler} /> */}
-        {/* <IconButton aria-label="add to favorites" onClick={favouriteHandler}>
-          <FavoriteIcon sx={{ fontSize: 60 }} color="action" />
-        </IconButton> */}
-        <CardMedia
-          component="img"
-          sx={{ width: 151 }}
-          image="src/assets/react.svg"
-          alt="Live from space album cover"
-        />
-        <CardActions>
-          <IconButton variant="outlined" color="neutral" sx={{ mr: 'auto' }} onClick={favouriteHandler}>
-            <FavoriteBorder />
+      <CardActions className="button-action">
+        {favourited ?
+          <IconButton
+            sx={{ ml: "auto", color: pink[500] }}
+            onClick={(e) => cardFavouriteHandler(e, gym.id)}
+          >
+            <FavoriteIcon sx={{ fontSize: 30 }} />
           </IconButton>
-          <Button variant="contained" color="primary" onClick={(e) => onClickHandler(e, gym.id)}>
-            View
-          </Button>
-        </CardActions>
-      </div>
+          :
+          <IconButton
+            sx={{ ml: "auto" }}
+            onClick={(e) => cardFavouriteHandler(e, gym.id)}
+          >
+            <FavoriteIcon sx={{ fontSize: 30 }} />
+          </IconButton>}
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={(e) => viewHandler(e, gym.id)}
+        >
+          View
+        </Button>
+      </CardActions>
     </Card>
   );
 };

@@ -1,3 +1,4 @@
+import { CleaningServices } from "@mui/icons-material";
 import { Box, Button, FormControl, FormLabel, InputLabel, Modal, Rating, TextField, Typography } from "@mui/material"
 import { useEffect, useState } from "react";
 
@@ -7,6 +8,7 @@ const AddReview = (props) => {
     const [cleanliness, setCleanliness] = useState(0)
     const [price, setPrice] = useState(0)
     const [service, setService] = useState(0)
+    const [description, setDescription] = useState("")
 
     useEffect(() => {
         // Update the document title using the browser API
@@ -14,7 +16,7 @@ const AddReview = (props) => {
         setCleanliness(0)
         setPrice(0)
         setService(0)
-        console.log("helloooo")
+        // console.log("helloooo")
       }, []);
 
     const style = {
@@ -29,6 +31,29 @@ const AddReview = (props) => {
         borderRadius: '20px',
         p: 4,
     };
+
+    const handleSubmit = (event) => {
+        event.preventDefault()
+        // console.log(`Rating: ${rating}`)
+        // console.log(`Cleanliness: ${cleanliness}`)
+        // console.log(`Price: ${price}`)
+        // console.log(`Service: ${service}`)
+        const review = {
+            id: "4",
+            userId: "4",
+            username: "Christian Lee",
+            rating: rating,
+            cleanliness: cleanliness,
+            price: price,
+            service: service,
+            description: description,
+            date: "1 second ago",
+          }
+
+          props.reviews.push(review)
+          props.handleClose()
+    }
+
     return (
         <Modal
             open={props.open}
@@ -37,7 +62,8 @@ const AddReview = (props) => {
             aria-describedby="modal-modal-description"
         >
             <Box sx={style}>
-                <FormControl className="review-form">
+                <form onSubmit={handleSubmit}>
+                <FormControl className="review-form" >
                     <FormLabel sx={{ textAlign: "center" }}>Overall</FormLabel>
                     <Rating value={rating} sx={{ fontSize: 60, marginLeft:'auto', marginRight:'auto'}}
                         onChange={(event, newValue) => {
@@ -61,12 +87,13 @@ const AddReview = (props) => {
                             setService(newValue);
                         }}
                         className="review-rating" />
-                    <TextField label="Description" multiline rows={3}></TextField>
+                    <TextField label="Description" multiline rows={3} onChange={e => setDescription(e.target.value)}></TextField>
                     <div className="review-button-action">
-                        <Button variant="contained">Save</Button>
+                        <Button type="submit" variant="contained">Save</Button>
                         <Button color="error" variant="contained" onClick={props.handleClose}>Cancel</Button>
                     </div>
                 </FormControl>
+                </form>
             </Box>
         </Modal>
     )

@@ -13,6 +13,7 @@ const GymDetailsPage = (props) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [reviews, setReviews] = useState([]);
 
   const gyms = [
     {
@@ -38,7 +39,7 @@ const GymDetailsPage = (props) => {
     },
   ];
 
-  const reviews = [
+  const mockReviews = [
     {
       id: "1",
       userId: "1",
@@ -81,13 +82,14 @@ const GymDetailsPage = (props) => {
   const loadGymDetails = () => {
     for (const [i, gym] of gyms.entries()) {
       if (gym.id === params.gymId) {
-        console.log("found it");
+        // console.log("found it");
         setCurrentGym(gym);
         break;
       } else {
-        console.log("looking at " + i);
+        // console.log("looking at " + i);
       }
     }
+    setReviews(mockReviews)
   };
 
   const favouriteHandler = () => {
@@ -133,7 +135,7 @@ const GymDetailsPage = (props) => {
                 review={review}
               />
             ))}
-            <AddReview open={open} handleClose={handleClose} />
+            <AddReview open={open} handleClose={handleClose} reviews={reviews} />
           </div>
           
         </div>
